@@ -1,0 +1,39 @@
+{
+  "work_order_id": "WO-2026-TWF-1419",
+  "generated_at": "2026-10-17T12:15:00Z",
+  "machine_id": "M14",
+  "machine_type": "CNC High-Speed Spindle Lathe",
+  "location": "Bay 1 - Precision Turning Line",
+  "priority": "P2 - HIGH PRIORITY SCHEDULED SERVICE",
+  "severity": "HIGH",
+  "failure_probability": 0.842,
+  "health_index": 0.285,
+  "lead_time_to_failure": "68 minutes notice (1.13 hours)",
+  "root_cause_analysis": {
+    "primary_failure_mode": "Tool Wear Failure (TWF)",
+    "physics_indicators": {
+      "tool_wear_minutes": 248.0,
+      "tool_wear_critical_limit_minutes": 240.0,
+      "torque_nm": 58.7,
+      "rotational_speed_rpm": 1420,
+      "mechanical_power_w": 8729.0,
+      "vibration_rms_mm_s": 3.94
+    },
+    "diagnosis": "Accumulated tool contact wear has reached 248 minutes, exceeding the maximum safe tool life limit (240 min). Excessive flank friction is driving torque increases (+38%) and harmonic tool chatter, creating immediate risk of workpiece dimensional out-of-spec and cutter fracturing."
+  },
+  "recommended_maintenance_actions": [
+    "Pause CNC sequence at completion of current part indexing.",
+    "Inspect carbide cutting insert grade TiAlN on turret station #4.",
+    "Index to fresh cutting edge or install new insert assembly.",
+    "Recalibrate tool length offset sensor using laser probe.",
+    "Log tool life reset in plant MES system."
+  ],
+  "business_impact": {
+    "unplanned_downtime_avoided_hours": 8.0,
+    "cost_of_unplanned_failure": 36000.0,
+    "cost_of_preventive_service": 850.0,
+    "net_capital_saved_usd": 35150.0
+  },
+  "dispatched_to": "Tooling & Machining Specialist Team",
+  "status": "DISPATCHED"
+}

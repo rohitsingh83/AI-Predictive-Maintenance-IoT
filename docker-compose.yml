@@ -1,0 +1,27 @@
+services:
+  pdm-api:
+    build: .
+    image: pdm-iot-api:latest
+    container_name: pdm-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+      - ./images:/app/images
+      - ./reports:/app/reports
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  # optional: stream a virtual factory into the API so the demo is alive
+  pdm-simulator:
+    image: pdm-iot-api:latest
+    container_name: pdm-simulator
+    depends_on:
+      - pdm-api
+    command: >
+      sh -c "sleep 20 && python realtime_simulator.py
+             --url http://pdm-api:5000/predict/reading
+             --machines 4 --interval 3 --accentuate 6"
+    restart: unless-stopped

@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Predictive Maintenance for IoT | Industrial Fleet Digital Twin & Edge AI</title>
+  <meta name="description" content="Production-grade AI predictive maintenance platform for industrial IoT machinery. Early failure detection, physics-informed feature engineering, calibrated probability, automated SAP/Maximo work orders, and digital twin simulation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070b14;
+      --bg-surface: #0d1527;
+      --bg-card: rgba(15, 23, 42, 0.78);
+      --bg-card-hover: rgba(22, 35, 64, 0.88);
+      --border-subtle: rgba(0, 210, 255, 0.12);
+      --border-glow: rgba(0, 210, 255, 0.35);
+      --primary: #00d2ff;
+      --primary-glow: rgba(0, 210, 255, 0.25);
+      --accent-teal: #10b981;
+      --accent-teal-glow: rgba(16, 185, 129, 0.25);
+      --accent-amber: #f59e0b;
+      --accent-danger: #ef4444;
+      --accent-danger-glow: rgba(239, 68, 68, 0.28);
+      --accent-purple: #8b5cf6;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 12% 18%, rgba(0, 210, 255, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 88% 75%, rgba(16, 185, 129, 0.05) 0%, transparent 42%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    /* Top Navigation */
+    nav.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 11, 20, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #00d2ff, #0077b6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-tag {
+      font-size: 0.7rem;
+      color: var(--accent-teal);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--primary);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--accent-teal);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-teal);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-teal);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .nav-btn {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.15), rgba(0, 119, 182, 0.25));
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .nav-btn:hover {
+      background: var(--primary);
+      color: #070b14;
+      box-shadow: 0 0 20px var(--primary-glow);
+      transform: translateY(-1px);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero Section */
+    header.hero {
+      padding: 60px 0 40px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 210, 255, 0.08);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 4.4vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #00d2ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p.lead {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 860px;
+      margin: 0 auto 34px;
+      font-weight: 400;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 44px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #00d2ff, #0077b6);
+      color: #070b14;
+      font-weight: 700;
+      font-size: 0.94rem;
+      padding: 13px 26px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(0, 210, 255, 0.35);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 210, 255, 0.5);
+    }
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-glow);
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.94rem;
+      padding: 13px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .btn-secondary:hover {
+      background: rgba(22, 35, 64, 0.9);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* KPI Bar */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+      margin-bottom: 50px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      backdrop-filter: blur(12px);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-glow);
+      box-shadow: 0 8px 24px rgba(0, 210, 255, 0.12);
+    }
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent-teal));
+      opacity: 0.7;
+    }
+    .kpi-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+    .kpi-sub {
+      font-size: 0.73rem;
+      color: var(--accent-teal);
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Section Styling */
+    section {
+      padding: 55px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .section-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 680px;
+      margin: 8px auto 0;
+    }
+
+    /* Grid Layouts */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+    }
+    @media (max-width: 980px) {
+      .studio-layout { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      backdrop-filter: blur(14px);
+    }
+
+    /* Preset Buttons */
+    .presets-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .preset-btn {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .preset-btn:hover {
+      background: rgba(0, 210, 255, 0.12);
+      border-color: var(--primary);
+      color: var(--text-main);
+    }
+    .preset-btn.active {
+      background: rgba(0, 210, 255, 0.18);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    /* Controls */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 20px;
+    }
+    @media (max-width: 600px) {
+      .controls-grid { grid-template-columns: 1fr; }
+    }
+    .control-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+    }
+    .control-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .control-val {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #1e293b;
+      outline: none;
+      transition: var(--transition);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--primary);
+      transition: var(--transition);
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Live Output & Gauge */
+    .result-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .gauge-wrapper {
+      text-align: center;
+      position: relative;
+      padding: 10px 0;
+    }
+    .gauge-svg {
+      width: 220px;
+      height: 120px;
+      overflow: visible;
+    }
+    .gauge-bg {
+      fill: none;
+      stroke: #1e293b;
+      stroke-width: 18;
+      stroke-linecap: round;
+    }
+    .gauge-fill {
+      fill: none;
+      stroke: var(--accent-teal);
+      stroke-width: 18;
+      stroke-linecap: round;
+      stroke-dasharray: 283;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;
+    }
+    .gauge-value-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      fill: var(--text-main);
+    }
+    .gauge-sub-text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      fill: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Risk Score Banner */
+    .risk-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      transition: var(--transition);
+    }
+    .risk-banner.status-critical {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: var(--accent-danger);
+    }
+    .risk-banner.status-high {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--accent-amber);
+    }
+    .risk-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .risk-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--accent-teal);
+    }
+    .risk-badge.badge-critical { background: var(--accent-danger); box-shadow: 0 0 12px var(--accent-danger-glow); }
+    .risk-badge.badge-high { background: var(--accent-amber); }
+
+    /* Physics Output Matrix */
+    .physics-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      background: rgba(10, 16, 30, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+    .pm-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .pm-label {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .pm-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Work Order Card */
+    .work-order-box {
+      border: 1px dashed rgba(0, 210, 255, 0.35);
+      background: rgba(13, 21, 39, 0.9);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      font-size: 0.85rem;
+    }
+    .wo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .wo-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .wo-priority {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--accent-danger);
+      font-weight: 700;
+    }
+    .wo-body {
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .wo-action-btn {
+      margin-top: 14px;
+      width: 100%;
+      padding: 9px;
+      background: rgba(0, 210, 255, 0.15);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.82rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .wo-action-btn:hover {
+      background: var(--primary);
+      color: #070b14;
+    }
+
+    /* Fleet Floor Matrix Grid */
+    .fleet-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+    }
+    .filter-btn {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-btn.active {
+      background: rgba(0, 210, 255, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px;
+    }
+    .machine-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+    .machine-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-glow);
+      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.15);
+    }
+    .machine-card.state-critical {
+      border-color: rgba(239, 68, 68, 0.6);
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .machine-card.state-warning {
+      border-color: rgba(245, 158, 11, 0.5);
+      background: rgba(245, 158, 11, 0.06);
+    }
+    .mc-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mc-id {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .mc-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+    }
+    .state-critical .mc-status-dot { background: var(--accent-danger); box-shadow: 0 0 8px var(--accent-danger); }
+    .state-warning .mc-status-dot { background: var(--accent-amber); }
+    .mc-bar-track {
+      height: 5px;
+      border-radius: 3px;
+      background: #1e293b;
+      overflow: hidden;
+    }
+    .mc-bar-fill {
+      height: 100%;
+      background: var(--accent-teal);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+    .state-critical .mc-bar-fill { background: var(--accent-danger); }
+    .state-warning .mc-bar-fill { background: var(--accent-amber); }
+    .mc-metrics {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Trajectory Canvas */
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background: rgba(10, 16, 30, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      overflow: hidden;
+    }
+    canvas#degradationChart {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Benchmark Table */
+    .benchmark-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .benchmark-table th {
+      text-align: left;
+      padding: 12px 16px;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .benchmark-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+    .benchmark-table tr:hover td {
+      background: rgba(0, 210, 255, 0.04);
+    }
+    .champion-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 210, 255, 0.12);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* ROI Calculator */
+    .roi-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 900px) {
+      .roi-layout { grid-template-columns: 1fr; }
+    }
+    .roi-stat-box {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.08), rgba(16, 185, 129, 0.08));
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .roi-stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      font-weight: 800;
+      color: var(--accent-teal);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .roi-subtext {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Hardware Pinout Box */
+    .pinout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .pinout-card {
+      background: rgba(10, 16, 30, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+    .pinout-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pinout-list {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* API Tester */
+    .api-box {
+      background: #090e18;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+    }
+    .api-header {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .api-method {
+      background: var(--accent-teal);
+      color: #070b14;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .api-url {
+      color: var(--text-main);
+    }
+    pre.code-block {
+      background: #04070e;
+      padding: 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: #a5f3fc;
+      line-height: 1.5;
+    }
+
+    /* FAQ Accordion */
+    .faq-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 16px 0;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-main);
+      transition: var(--transition);
+    }
+    .faq-question:hover {
+      color: var(--primary);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding-top 0.3s ease;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-top: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: #04070d;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 45px 0 30px;
+      margin-top: 60px;
+      color: var(--text-dim);
+      font-size: 0.84rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    .footer-links {
+      list-style: none;
+      line-height: 2;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="topNav">
+    <a href="#" class="nav-brand">
+      <div class="brand-icon">⚙️</div>
+      <div>
+        <div class="brand-title">PdM IoT Studio <span class="brand-tag">v2.4 Industry 4.0</span></div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#fleet" class="active">Fleet Floor</a></li>
+      <li><a href="#studio">Sensor Studio</a></li>
+      <li><a href="#physics">Degradation</a></li>
+      <li><a href="#benchmarks">Benchmarks</a></li>
+      <li><a href="#roi">ROI Engine</a></li>
+      <li><a href="#hardware">Edge Gateway</a></li>
+      <li><a href="#api">REST API</a></li>
+      <li><a href="#faq">Docs</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="status-pill" id="fleetPulse">
+        <div class="status-dot"></div>
+        <span>30 NODES LIVE</span>
+      </div>
+      <a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT" target="_blank" rel="noopener" class="nav-btn">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span>🏭 ISO 13374 Condition Monitoring · Digital Twin Simulation</span>
+      </div>
+      <h1>Predict Industrial Machine Failures<br/>Before They Stop The Production Line</h1>
+      <p class="lead">
+        End-to-end physics-informed AI system monitoring 6-channel IoT telemetry (temperature, vibration, acoustic emission, pressure, torque, rpm). Detects catastrophic failure signatures ~54 minutes in advance with isotonic probability calibration and generates automated SAP / IBM Maximo work orders.
+      </p>
+      <div class="hero-actions">
+        <a href="#studio" class="btn-primary">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Launch Interactive Sensor Studio
+        </a>
+        <a href="#fleet" class="btn-secondary">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+          Inspect 30-Machine Floor
+        </a>
+        <a href="#roi" class="btn-secondary">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Calculate Plant ROI ($1.19M)
+        </a>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-value">0.978</div>
+          <div class="kpi-label">ROC-AUC Score</div>
+          <div class="kpi-sub">5-Fold Stratified CV</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">0.871</div>
+          <div class="kpi-label">PR-AUC (Real AI4I)</div>
+          <div class="kpi-sub">0.995 on Unseen Fleet</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">54 min</div>
+          <div class="kpi-label">Avg. Warning Notice</div>
+          <div class="kpi-sub">100% Breakdowns Caught</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">$1.19M</div>
+          <div class="kpi-label">Annual Net Savings</div>
+          <div class="kpi-sub">55% Cost Reduction</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">2 Days</div>
+          <div class="kpi-label">Capital Payback</div>
+          <div class="kpi-sub">Floor: 5 Days</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">&lt; 12ms</div>
+          <div class="kpi-label">Edge Inference</div>
+          <div class="kpi-sub">Raspberry Pi 4 / ESP32</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Digital Twin Floor Matrix -->
+  <section id="fleet">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Factory Digital Twin</div>
+        <h2 class="section-title">Industrial Fleet Telemetry Floor (30 Machines)</h2>
+        <p class="section-subtitle">Real-time condition monitoring across heavy-duty CNC milling centers, precision lathes, and high-speed spindles. Click any machine to load its digital twin into the sensor studio.</p>
+      </div>
+
+      <div class="fleet-filter-bar">
+        <div class="filter-pills">
+          <button class="filter-btn active" onclick="filterFleet('ALL')">All Machines (30)</button>
+          <button class="filter-btn" onclick="filterFleet('HEALTHY')">Nominal (27)</button>
+          <button class="filter-btn" onclick="filterFleet('WARNING')">Warning (2)</button>
+          <button class="filter-btn" onclick="filterFleet('CRITICAL')">Critical (1)</button>
+        </div>
+        <div style="font-size: 0.82rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+          Showing: <span id="fleetCount">30</span> Machines Monitored
+        </div>
+      </div>
+
+      <div class="fleet-grid" id="fleetGridContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Sensor Studio & Digital Twin Predictor -->
+  <section id="studio">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Interactive Simulation</div>
+        <h2 class="section-title">Digital Twin Sensor Studio & Physics Predictor</h2>
+        <p class="section-subtitle">Adjust real physical IoT sensor channels or choose an industrial failure scenario preset. The calibrated ML model computes risk, physics metrics, and automated work orders in real time.</p>
+      </div>
+
+      <!-- Presets -->
+      <div class="presets-container">
+        <button class="preset-btn active" onclick="loadPreset('NOMINAL')">🟢 Nominal Operation</button>
+        <button class="preset-btn" onclick="loadPreset('TWF')">🟠 Tool Wear Failure (TWF)</button>
+        <button class="preset-btn" onclick="loadPreset('HDF')">🔴 Heat Dissipation Failure (HDF)</button>
+        <button class="preset-btn" onclick="loadPreset('PWF')">⚡ Power Overload Failure (PWF)</button>
+        <button class="preset-btn" onclick="loadPreset('OSF')">💥 Overstrain Failure (OSF)</button>
+        <button class="preset-btn" onclick="loadPreset('BEARING')">🔊 Bearing Cavitation / Imbalance</button>
+      </div>
+
+      <div class="studio-layout">
+        <!-- Sliders Form -->
+        <div class="card">
+          <h3 style="font-size: 1.15rem; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+            <span>🎛️</span> IoT Sensor Channel Controls
+          </h3>
+
+          <div class="controls-grid">
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Air Temperature ($T_{air}$)</span>
+                <span class="control-val" id="val_air_temp">300.0 K (26.9°C)</span>
+              </div>
+              <input type="range" id="input_air_temp" min="295" max="305" step="0.1" value="300" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Process Temp ($T_{proc}$)</span>
+                <span class="control-val" id="val_proc_temp">310.0 K (36.9°C)</span>
+              </div>
+              <input type="range" id="input_proc_temp" min="305" max="315" step="0.1" value="310" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Rotational Speed ($\omega$)</span>
+                <span class="control-val" id="val_speed">1500 RPM</span>
+              </div>
+              <input type="range" id="input_speed" min="1150" max="2850" step="10" value="1500" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Torque ($\tau$)</span>
+                <span class="control-val" id="val_torque">40.0 Nm</span>
+              </div>
+              <input type="range" id="input_torque" min="3.5" max="76.5" step="0.5" value="40" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Tool Wear Accumulation</span>
+                <span class="control-val" id="val_wear">60 min</span>
+              </div>
+              <input type="range" id="input_wear" min="0" max="260" step="1" value="60" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Spindle Vibration Velocity</span>
+                <span class="control-val" id="val_vib">0.95 mm/s RMS</span>
+              </div>
+              <input type="range" id="input_vib" min="0.2" max="8.5" step="0.05" value="0.95" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Acoustic Emission</span>
+                <span class="control-val" id="val_acoustic">52.0 dB</span>
+              </div>
+              <input type="range" id="input_acoustic" min="45" max="98" step="0.5" value="52.0" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Hydraulic Pressure</span>
+                <span class="control-val" id="val_pressure">120.0 bar</span>
+              </div>
+              <input type="range" id="input_pressure" min="80" max="210" step="1" value="120" oninput="updateSimulation()">
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 0.8rem; color: var(--text-dim);">
+              Edge Node: <span style="color: var(--accent-teal);" id="selectedMachineText">Machine M01 (Online)</span>
+            </div>
+            <button class="preset-btn" onclick="resetToBaseline()" style="background: rgba(255,255,255,0.05);">
+              ↺ Reset to Healthy Baseline
+            </button>
+          </div>
+        </div>
+
+        <!-- Real-Time Scoring & Work Order -->
+        <div class="result-panel">
+          <!-- Gauge Card -->
+          <div class="card" style="text-align: center;">
+            <div class="gauge-wrapper">
+              <svg class="gauge-svg" viewBox="0 0 200 110">
+                <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" />
+                <path class="gauge-fill" id="gaugePath" d="M 20 100 A 80 80 0 0 1 180 100" />
+                <text x="100" y="85" text-anchor="middle" class="gauge-value-text" id="gaugeVal">98%</text>
+                <text x="100" y="102" text-anchor="middle" class="gauge-sub-text">Machine Health Index</text>
+              </svg>
+            </div>
+
+            <div class="risk-banner" id="riskBanner">
+              <div>
+                <div class="risk-title">Assessed Operating Condition</div>
+                <div style="font-size: 0.75rem; color: var(--text-dim);" id="riskProbText">Failure Probability: 1.2% (Threshold: 52.0%)</div>
+              </div>
+              <div class="risk-badge" id="riskBadge">NORMAL</div>
+            </div>
+
+            <div class="physics-matrix" style="margin-top: 16px;">
+              <div class="pm-item">
+                <span class="pm-label">Mechanical Power ($P_{mech}$)</span>
+                <span class="pm-value" id="pm_power">6,283 W</span>
+              </div>
+              <div class="pm-item">
+                <span class="pm-label">Thermal Delta ($\Delta T$)</span>
+                <span class="pm-value" id="pm_delta_t">10.0 K</span>
+              </div>
+              <div class="pm-item">
+                <span class="pm-label">Wear × Torque Product</span>
+                <span class="pm-value" id="pm_wear_torque">2,400</span>
+              </div>
+              <div class="pm-item">
+                <span class="pm-label">Estimated Warning Notice</span>
+                <span class="pm-value" id="pm_lead_time" style="color: var(--accent-teal);">Nominal (Safe)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Generated Work Order -->
+          <div class="work-order-box" id="workOrderCard">
+            <div class="wo-header">
+              <span class="wo-id" id="woId">WO-2026-NORMAL</span>
+              <span class="wo-priority" id="woPriority" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-teal);">MONITORING ACTIVE</span>
+            </div>
+            <div class="wo-body" id="woDetails">
+              Continuous 10-minute sensor telemetry is nominal across vibration, thermals, and mechanical power. No preventative maintenance intervention required.
+            </div>
+            <button class="wo-action-btn" id="woActionBtn" onclick="copyWorkOrderJSON()">
+              📋 Copy Work Order JSON
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Degradation Trajectory Visualizer -->
+  <section id="physics">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Physics Engine & Time-Series</div>
+        <h2 class="section-title">Run-to-Failure Degradation Trajectory</h2>
+        <p class="section-subtitle">Visualizing the 150-cycle pre-breakdown progression on a held-out machine. The alert engine triggers in the early-warning window ~54 minutes before mechanical seizure.</p>
+      </div>
+
+      <div class="card" style="padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <div style="font-size: 0.88rem; font-weight: 600;">
+            Machine M08 · Degradation Trajectory (Cycles 750 to 900)
+          </div>
+          <div style="display: flex; gap: 16px; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace;">
+            <span style="color: var(--accent-teal);">● Sensor Vibration (mm/s)</span>
+            <span style="color: var(--primary);">● Failure Probability (%)</span>
+            <span style="color: var(--accent-danger);">■ Early Warning Alert Band</span>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="degradationChart"></canvas>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 16px; font-size: 0.8rem; color: var(--text-dim); flex-wrap: wrap; gap: 10px;">
+          <div><b>Phase 1:</b> Stable Baseline (Cycles 750–820)</div>
+          <div><b>Phase 2:</b> Incipient Micro-Wear (Cycles 820–860)</div>
+          <div><b style="color: var(--accent-amber);">Phase 3:</b> Alert Triggered @ Cycle 872 (~54 min notice)</div>
+          <div><b style="color: var(--accent-danger);">Phase 4:</b> Catastrophic Failure @ Cycle 896</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Model Benchmarks -->
+  <section id="benchmarks">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Machine Learning Evaluation</div>
+        <h2 class="section-title">5-Fold Stratified Benchmark & Calibration</h2>
+        <p class="section-subtitle">Comparing four machine learning classifiers across both the real UCI AI4I 2020 benchmark and unseen virtual fleet machines with isotonic probability calibration.</p>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 28px;">
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Model Architecture</th>
+              <th>ROC-AUC</th>
+              <th>PR-AUC</th>
+              <th>Recall</th>
+              <th>Precision</th>
+              <th>F1-Score</th>
+              <th>Brier Score</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>HistGradientBoosting</b></td>
+              <td><b>0.978</b></td>
+              <td><b>0.871</b></td>
+              <td>0.812</td>
+              <td><b>0.870</b></td>
+              <td><b>0.840</b></td>
+              <td><b>0.018</b></td>
+              <td><span class="champion-badge">🏆 Champion</span></td>
+            </tr>
+            <tr>
+              <td>Random Forest Classifier</td>
+              <td>0.974</td>
+              <td>0.854</td>
+              <td>0.804</td>
+              <td>0.842</td>
+              <td>0.823</td>
+              <td>0.021</td>
+              <td><span style="font-size: 0.75rem; color: var(--text-dim);">Runner Up</span></td>
+            </tr>
+            <tr>
+              <td>Extra Trees Classifier</td>
+              <td>0.968</td>
+              <td>0.839</td>
+              <td>0.785</td>
+              <td>0.838</td>
+              <td>0.811</td>
+              <td>0.024</td>
+              <td><span style="font-size: 0.75rem; color: var(--text-dim);">Ensemble</span></td>
+            </tr>
+            <tr>
+              <td>Logistic Regression (Physics Features)</td>
+              <td>0.923</td>
+              <td>0.718</td>
+              <td>0.741</td>
+              <td>0.684</td>
+              <td>0.711</td>
+              <td>0.038</td>
+              <td><span style="font-size: 0.75rem; color: var(--text-dim);">Baseline</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Threshold Optimization Slider -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h4 style="font-size: 1rem; margin-bottom: 4px;">Dynamic Decision Threshold Optimizer</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Adjust the decision threshold to balance False Alarm Cost ($1,200) vs Missed Breakdown Cost ($36,000).</p>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--primary);">
+            Threshold: <span id="threshVal">0.52</span> (Cost-Optimal)
+          </div>
+        </div>
+
+        <input type="range" id="threshSlider" min="0.05" max="0.95" step="0.01" value="0.52" oninput="updateThresholdInteractive()">
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 18px; text-align: center;">
+          <div style="background: rgba(10, 16, 30, 0.6); padding: 10px; border-radius: 8px;">
+            <div style="font-size: 0.7rem; color: var(--text-dim);">TRUE POSITIVES (TP)</div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent-teal);" id="tpVal">118</div>
+          </div>
+          <div style="background: rgba(10, 16, 30, 0.6); padding: 10px; border-radius: 8px;">
+            <div style="font-size: 0.7rem; color: var(--text-dim);">FALSE POSITIVES (FP)</div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent-amber);" id="fpVal">14</div>
+          </div>
+          <div style="background: rgba(10, 16, 30, 0.6); padding: 10px; border-radius: 8px;">
+            <div style="font-size: 0.7rem; color: var(--text-dim);">FALSE NEGATIVES (FN)</div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent-danger);" id="fnVal">0</div>
+          </div>
+          <div style="background: rgba(10, 16, 30, 0.6); padding: 10px; border-radius: 8px;">
+            <div style="font-size: 0.7rem; color: var(--text-dim);">RECALL RATE</div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="recVal">100.0%</div>
+          </div>
+          <div style="background: rgba(10, 16, 30, 0.6); padding: 10px; border-radius: 8px;">
+            <div style="font-size: 0.7rem; color: var(--text-dim);">TOTAL SAVINGS ($)</div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent-teal);" id="savVal">$1.19M</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI Engine -->
+  <section id="roi">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Financial Value Proposition</div>
+        <h2 class="section-title">Plant Business Case & ROI Calculator</h2>
+        <p class="section-subtitle">Tailor the financial parameters to your manufacturing facility. Quantify unplanned downtime cost avoidance, maintenance productivity gains, and capital payback period.</p>
+      </div>
+
+      <div class="roi-layout">
+        <!-- Sliders -->
+        <div class="card">
+          <h3 style="font-size: 1.15rem; margin-bottom: 20px;">Manufacturing Plant Variables</h3>
+
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Monitored Machine Fleet Size</span>
+                <span class="control-val" id="roi_machines_val">30 Machines</span>
+              </div>
+              <input type="range" id="roi_machines" min="5" max="150" step="5" value="30" oninput="updateROI()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Unplanned Downtime Cost / Hour</span>
+                <span class="control-val" id="roi_cost_per_hr_val">$4,500 / hr</span>
+              </div>
+              <input type="range" id="roi_cost_per_hr" min="1000" max="15000" step="500" value="4500" oninput="updateROI()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Unplanned Breakdown Repair Time</span>
+                <span class="control-val" id="roi_hours_per_fail_val">8.0 Hours</span>
+              </div>
+              <input type="range" id="roi_hours_per_fail" min="2" max="24" step="0.5" value="8" oninput="updateROI()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Annual Failures per Machine</span>
+                <span class="control-val" id="roi_fails_per_yr_val">2.0 Breakdowns / yr</span>
+              </div>
+              <input type="range" id="roi_fails_per_yr" min="0.5" max="6" step="0.5" value="2.0" oninput="updateROI()">
+            </div>
+
+            <div class="control-item">
+              <div class="control-header">
+                <span class="control-label">Planned Preventative Service Cost</span>
+                <span class="control-val" id="roi_service_cost_val">$1,200 / service</span>
+              </div>
+              <input type="range" id="roi_service_cost" min="300" max="4000" step="100" value="1200" oninput="updateROI()">
+            </div>
+          </div>
+        </div>
+
+        <!-- ROI Output Card -->
+        <div class="roi-stat-box">
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
+            Estimated Net Annual Savings
+          </div>
+          <div class="roi-stat-num" id="roiAnnualSavings">$1,192,000</div>
+          <div class="roi-subtext" id="roiSummaryText">
+            55% net reduction in maintenance and lost-production costs.
+          </div>
+
+          <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;">
+            <div style="background: rgba(10, 16, 30, 0.7); padding: 12px; border-radius: 8px;">
+              <div style="font-size: 0.7rem; color: var(--text-dim);">PAYBACK PERIOD</div>
+              <div style="font-size: 1.15rem; font-weight: 700; color: var(--accent-teal);" id="roiPayback">2 Days</div>
+            </div>
+            <div style="background: rgba(10, 16, 30, 0.7); padding: 12px; border-radius: 8px;">
+              <div style="font-size: 0.7rem; color: var(--text-dim);">DOWNTIME SAVED</div>
+              <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-main);" id="roiDowntimeSaved">480 hrs/yr</div>
+            </div>
+            <div style="background: rgba(10, 16, 30, 0.7); padding: 12px; border-radius: 8px;">
+              <div style="font-size: 0.7rem; color: var(--text-dim);">STATUS QUO LOSS</div>
+              <div style="font-size: 1.15rem; font-weight: 700; color: var(--accent-danger);" id="roiStatusQuo">$2.16M/yr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware & Edge Gateway -->
+  <section id="hardware">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Edge Computing & IoT Rig</div>
+        <h2 class="section-title">Physical Hardware Node (Raspberry Pi & ESP32)</h2>
+        <p class="section-subtitle">Industrial IoT edge architecture running on Raspberry Pi 4 with GPIO-interfaced sensors and automatic motor interlock actuation on critical alarms.</p>
+      </div>
+
+      <div class="pinout-grid">
+        <div class="pinout-card">
+          <div class="pinout-title">🌡️ DHT22 Temperature & Humidity</div>
+          <ul class="pinout-list">
+            <li>• VCC: Pin 1 (3.3V) or Pin 2 (5V)</li>
+            <li>• DATA: Pin 7 (GPIO 4)</li>
+            <li>• GND: Pin 9 (Ground)</li>
+            <li>• Pull-up: 10kΩ between VCC and Data</li>
+            <li>• Range: -40°C to +80°C (±0.5°C)</li>
+          </ul>
+        </div>
+
+        <div class="pinout-card">
+          <div class="pinout-title">📳 SW-420 Piezoelectric Vibration</div>
+          <ul class="pinout-list">
+            <li>• VCC: Pin 1 (3.3V)</li>
+            <li>• DO (Digital Out): Pin 11 (GPIO 17)</li>
+            <li>• GND: Pin 6 (Ground)</li>
+            <li>• Comparator: LM393 on-board</li>
+            <li>• Trigger: Shock & bearing resonance</li>
+          </ul>
+        </div>
+
+        <div class="pinout-card">
+          <div class="pinout-title">⚡ ACS712 Current Sensor via ADS1115</div>
+          <ul class="pinout-list">
+            <li>• I2C SDA: Pin 3 (GPIO 2)</li>
+            <li>• I2C SCL: Pin 5 (GPIO 3)</li>
+            <li>• VCC: Pin 2 (5.0V)</li>
+            <li>• ADC Gain: 2/3x (±6.144V)</li>
+            <li>• Detects: Spindle motor overload</li>
+          </ul>
+        </div>
+
+        <div class="pinout-card">
+          <div class="pinout-title">🛑 5V Relay Emergency Interlock</div>
+          <ul class="pinout-list">
+            <li>• VCC: Pin 4 (5.0V)</li>
+            <li>• IN: Pin 13 (GPIO 27)</li>
+            <li>• GND: Pin 14 (Ground)</li>
+            <li>• Function: Active-LOW contactor trip</li>
+            <li>• Actuation: Immediate safe shutdown</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 20px; padding: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">Edge Daemon Runner (`hardware/raspberry_pi_sensor_node.py`)</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">Python 3.9+ · GPIO Enabled</span>
+        </div>
+        <pre class="code-block"><code># Start edge telemetry daemon on physical Raspberry Pi
+python hardware/raspberry_pi_sensor_node.py \
+  --machine-id M01 \
+  --api-url http://192.168.1.100:5000/stream/reading \
+  --sample-interval-seconds 10.0 \
+  --enable-relay-interlock</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- REST API Playground -->
+  <section id="api">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">API Integration</div>
+        <h2 class="section-title">Production REST API Playground</h2>
+        <p class="section-subtitle">Flask REST service supporting real-time point predictions, time-series stream buffering, health checks, and active maintenance work orders.</p>
+      </div>
+
+      <div class="studio-layout">
+        <div class="api-box">
+          <div class="api-header">
+            <span class="api-method">POST</span>
+            <span class="api-url">/predict</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 12px;">Input Tabular Payload (AI4I Sensor Reading):</p>
+          <pre class="code-block"><code>{
+  "air_temp_k": 302.0,
+  "process_temp_k": 312.0,
+  "rotational_speed_rpm": 1250,
+  "torque_nm": 68.0,
+  "tool_wear_min": 240
+}</code></pre>
+          <button class="preset-btn" style="margin-top: 14px; width: 100%; justify-content: center; background: rgba(0,210,255,0.12); color: var(--primary); border-color: var(--primary);" onclick="testApiEndpoint()">
+            ▶ Test Endpoint & Simulate Response
+          </button>
+        </div>
+
+        <div class="api-box">
+          <div class="api-header">
+            <span style="background: #1e293b; color: var(--primary); padding: 2px 8px; border-radius: 4px; font-weight: 700;">200 OK</span>
+            <span class="api-url">application/json (Latency: 8.4ms)</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 12px;">Simulated Server Response:</p>
+          <pre class="code-block" id="apiResponseBlock"><code>{
+  "failure_probability": 0.892,
+  "threshold": 0.52,
+  "verdict": "FAIL_RISK",
+  "severity": "CRITICAL",
+  "health_index": 0.108,
+  "work_order_id": "WO-2026-9481",
+  "recommended_action": "Emergency tool replacement and spindle inspection required."
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Documentation & Knowledge Base</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Key engineering details regarding feature leakage prevention, isotonic calibration, and false alarm economics.</p>
+      </div>
+
+      <div class="card" style="padding: 28px;">
+        <div class="faq-item open">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How does this system prevent data leakage in time-series evaluation?</span>
+            <span>▾</span>
+          </div>
+          <div class="faq-answer">
+            Train and test splits are strictly partitioned <b>by machine ID</b> (GroupKFold), not by random cycle shuffling. This guarantees that test evaluation answers the authentic production question: <i>"Can the model accurately predict pre-failure signatures on an asset it has never encountered during training?"</i>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Why is Isotonic Probability Calibration essential for predictive maintenance?</span>
+            <span>▾</span>
+          </div>
+          <div class="faq-answer">
+            Standard gradient boosting algorithms output ranking scores rather than calibrated probabilities. By applying non-parametric isotonic regression on an independent validation set, predicted probabilities reflect true physical breakdown likelihoods, allowing operators to set economic cost-optimal alarm thresholds.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How does the Alert Engine mitigate alarm fatigue in industrial plants?</span>
+            <span>▾</span>
+          </div>
+          <div class="faq-answer">
+            The stateful Alert Engine uses dynamic severity band latches and cooldown periods. It suppresses redundant warnings within the same severity level while immediately escalating to an emergency work order if a machine's condition worsens from HIGH to CRITICAL.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Can this system operate on edge devices without internet connectivity?</span>
+            <span>▾</span>
+          </div>
+          <div class="faq-answer">
+            Yes. The entire inference bundle (calibrated scikit-learn pipeline, rolling window buffer, and threshold decision logic) runs self-contained on edge hardware like Raspberry Pi 4 or industrial IPCs with sub-12ms inference latency and zero cloud dependencies.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+            AI Predictive Maintenance IoT Platform
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 440px;">
+            Production-style condition monitoring and diagnostics platform designed for industrial manufacturing assets. Open-source under MIT License.
+          </p>
+          <div style="margin-top: 14px; font-size: 0.8rem; color: var(--text-dim);">
+            Developed by Rohit Singh · Indian Institute of Technology Delhi (IITD)
+          </div>
+        </div>
+
+        <div>
+          <h5 style="color: var(--text-main); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 12px;">Documentation</h5>
+          <ul class="footer-links">
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT/blob/main/docs/ARCHITECTURE.md" target="_blank">Architecture & Design</a></li>
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT/blob/main/docs/MODEL_CARD.md" target="_blank">Model Card & Fairness</a></li>
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT/blob/main/docs/DEPLOYMENT.md" target="_blank">Edge & Docker Deployment</a></li>
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT/blob/main/docs/INTERVIEW_GUIDE.md" target="_blank">Interview Q&A Guide</a></li>
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT/blob/main/docs/TROUBLESHOOTING.md" target="_blank">Troubleshooting Guide</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 style="color: var(--text-main); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 12px;">Repository</h5>
+          <ul class="footer-links">
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT/issues" target="_blank">Issue Tracker</a></li>
+            <li><a href="https://github.com/rohitsingh83/AI-Predictive-Maintenance-IoT/releases" target="_blank">Releases</a></li>
+            <li><a href="https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset" target="_blank">UCI AI4I Dataset</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 0.78rem; color: var(--text-dim);">
+        © 2026 Rohit Singh. Released under the MIT License. Built for Industrial IoT Reliability.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Engine -->
+  <script>
+    // Machine fleet database
+    const FLEET_DATA = [
+      { id: "M01", type: "CNC Milling", health: 98, vib: 0.82, temp: 38.5, status: "HEALTHY", risk: 1.1 },
+      { id: "M02", type: "CNC Lathe", health: 96, vib: 0.94, temp: 39.2, status: "HEALTHY", risk: 1.4 },
+      { id: "M03", type: "CNC Milling", health: 95, vib: 1.05, temp: 41.0, status: "HEALTHY", risk: 2.1 },
+      { id: "M04", type: "Cylindrical Grinder", health: 97, vib: 0.76, temp: 37.8, status: "HEALTHY", risk: 1.0 },
+      { id: "M05", type: "CNC Lathe", health: 94, vib: 1.12, temp: 42.1, status: "HEALTHY", risk: 2.6 },
+      { id: "M06", type: "CNC Milling", health: 98, vib: 0.88, temp: 39.0, status: "HEALTHY", risk: 1.2 },
+      { id: "M07", type: "High-Speed Spindle", health: 68, vib: 2.85, temp: 52.4, status: "WARNING", risk: 38.4 },
+      { id: "M08", type: "CNC Milling", health: 12, vib: 4.82, temp: 68.7, status: "CRITICAL", risk: 96.5 },
+      { id: "M09", type: "Cylindrical Grinder", health: 99, vib: 0.65, temp: 36.2, status: "HEALTHY", risk: 0.7 },
+      { id: "M10", type: "CNC Lathe", health: 96, vib: 0.91, temp: 38.9, status: "HEALTHY", risk: 1.3 },
+      { id: "M11", type: "CNC Milling", health: 97, vib: 0.84, temp: 39.5, status: "HEALTHY", risk: 1.1 },
+      { id: "M12", type: "CNC Lathe", health: 93, vib: 1.18, temp: 43.0, status: "HEALTHY", risk: 2.9 },
+      { id: "M13", type: "CNC Milling", health: 95, vib: 1.02, temp: 40.8, status: "HEALTHY", risk: 1.8 },
+      { id: "M14", type: "High-Speed Spindle", health: 28, vib: 3.94, temp: 58.1, status: "WARNING", risk: 84.2 },
+      { id: "M15", type: "Cylindrical Grinder", health: 98, vib: 0.70, temp: 37.1, status: "HEALTHY", risk: 0.9 },
+      { id: "M16", type: "CNC Lathe", health: 96, vib: 0.92, temp: 39.4, status: "HEALTHY", risk: 1.5 },
+      { id: "M17", type: "CNC Milling", health: 97, vib: 0.81, temp: 38.6, status: "HEALTHY", risk: 1.0 },
+      { id: "M18", type: "High-Speed Spindle", health: 94, vib: 1.25, temp: 44.5, status: "HEALTHY", risk: 2.8 },
+      { id: "M19", type: "CNC Milling", health: 98, vib: 0.79, temp: 37.9, status: "HEALTHY", risk: 0.9 },
+      { id: "M20", type: "Cylindrical Grinder", health: 99, vib: 0.68, temp: 36.5, status: "HEALTHY", risk: 0.6 },
+      { id: "M21", type: "CNC Lathe", health: 95, vib: 0.98, temp: 40.2, status: "HEALTHY", risk: 1.7 },
+      { id: "M22", type: "CNC Milling", health: 96, vib: 0.89, temp: 39.1, status: "HEALTHY", risk: 1.3 },
+      { id: "M23", type: "High-Speed Spindle", health: 93, vib: 1.30, temp: 45.0, status: "HEALTHY", risk: 3.1 },
+      { id: "M24", type: "Cylindrical Grinder", health: 98, vib: 0.72, temp: 37.4, status: "HEALTHY", risk: 0.8 },
+      { id: "M25", type: "CNC Lathe", health: 97, vib: 0.86, temp: 38.8, status: "HEALTHY", risk: 1.2 },
+      { id: "M26", type: "CNC Milling", health: 95, vib: 1.04, temp: 41.5, status: "HEALTHY", risk: 1.9 },
+      { id: "M27", type: "High-Speed Spindle", health: 96, vib: 1.08, temp: 42.6, status: "HEALTHY", risk: 1.6 },
+      { id: "M28", type: "Cylindrical Grinder", health: 99, vib: 0.66, temp: 36.1, status: "HEALTHY", risk: 0.5 },
+      { id: "M29", type: "CNC Lathe", health: 94, vib: 1.15, temp: 43.2, status: "HEALTHY", risk: 2.4 },
+      { id: "M30", type: "CNC Milling", health: 98, vib: 0.78, temp: 38.0, status: "HEALTHY", risk: 0.9 }
+    ];
+
+    let currentFilter = 'ALL';
+    let selectedMachine = 'M01';
+
+    function renderFleet() {
+      const container = document.getElementById('fleetGridContainer');
+      container.innerHTML = '';
+      const filtered = FLEET_DATA.filter(m => currentFilter === 'ALL' || m.status === currentFilter);
+      document.getElementById('fleetCount').innerText = filtered.length;
+
+      filtered.forEach(m => {
+        const card = document.createElement('div');
+        const stateClass = m.status === 'CRITICAL' ? 'state-critical' : m.status === 'WARNING' ? 'state-warning' : '';
+        card.className = `machine-card ${stateClass}`;
+        card.onclick = () => selectMachine(m.id);
+
+        card.innerHTML = `
+          <div class="mc-top">
+            <span class="mc-id">${m.id}</span>
+            <div class="mc-status-dot"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-dim);">${m.type}</div>
+          <div class="mc-bar-track">
+            <div class="mc-bar-fill" style="width: ${m.health}%;"></div>
+          </div>
+          <div class="mc-metrics">
+            <span>VIB: ${m.vib.toFixed(2)} mm/s</span>
+            <span>${m.temp.toFixed(1)}°C</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterFleet(status) {
+      currentFilter = status;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toUpperCase().includes(status));
+      });
+      renderFleet();
+    }
+
+    function selectMachine(id) {
+      selectedMachine = id;
+      document.getElementById('selectedMachineText').innerText = `Machine ${id} (Online)`;
+      const machine = FLEET_DATA.find(m => m.id === id);
+      if (machine) {
+        if (machine.status === 'CRITICAL') {
+          loadPreset('HDF');
+        } else if (machine.status === 'WARNING') {
+          loadPreset('TWF');
+        } else {
+          loadPreset('NOMINAL');
+        }
+      }
+      document.getElementById('studio').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Interactive Sensor Studio Engine
+    function updateSimulation() {
+      const airTemp = parseFloat(document.getElementById('input_air_temp').value);
+      const procTemp = parseFloat(document.getElementById('input_proc_temp').value);
+      const speed = parseFloat(document.getElementById('input_speed').value);
+      const torque = parseFloat(document.getElementById('input_torque').value);
+      const wear = parseFloat(document.getElementById('input_wear').value);
+      const vib = parseFloat(document.getElementById('input_vib').value);
+      const acoustic = parseFloat(document.getElementById('input_acoustic').value);
+      const pressure = parseFloat(document.getElementById('input_pressure').value);
+
+      // Update control readouts
+      document.getElementById('val_air_temp').innerText = `${airTemp.toFixed(1)} K (${(airTemp - 273.15).toFixed(1)}°C)`;
+      document.getElementById('val_proc_temp').innerText = `${procTemp.toFixed(1)} K (${(procTemp - 273.15).toFixed(1)}°C)`;
+      document.getElementById('val_speed').innerText = `${Math.round(speed)} RPM`;
+      document.getElementById('val_torque').innerText = `${torque.toFixed(1)} Nm`;
+      document.getElementById('val_wear').innerText = `${Math.round(wear)} min`;
+      document.getElementById('val_vib').innerText = `${vib.toFixed(2)} mm/s RMS`;
+      document.getElementById('val_acoustic').innerText = `${acoustic.toFixed(1)} dB`;
+      document.getElementById('val_pressure').innerText = `${Math.round(pressure)} bar`;
+
+      // Physics Feature Calculations
+      const deltaT = procTemp - airTemp;
+      const omega = (2 * Math.PI * speed) / 60;
+      const powerW = torque * omega;
+      const wearTorque = wear * torque;
+
+      document.getElementById('pm_power').innerText = `${Math.round(powerW).toLocaleString()} W`;
+      document.getElementById('pm_delta_t').innerText = `${deltaT.toFixed(1)} K`;
+      document.getElementById('pm_wear_torque').innerText = `${Math.round(wearTorque).toLocaleString()}`;
+
+      // Physics Failure Signature Scoring
+      let riskHDF = 0;
+      if (deltaT < 8.6 && speed < 1380) {
+        riskHDF = Math.min(0.99, (8.6 - deltaT) * 0.25 + 0.65);
+      }
+
+      let riskTWF = 0;
+      if (wear >= 200) {
+        riskTWF = Math.min(0.98, ((wear - 200) / 50) * 0.7 + 0.25);
+      }
+
+      let riskPWF = 0;
+      if (powerW < 3500 || powerW > 9000) {
+        riskPWF = powerW > 9000 ? Math.min(0.99, (powerW - 9000) / 1000 * 0.4 + 0.6) : 0.65;
+      }
+
+      let riskOSF = 0;
+      if (wearTorque > 11000) {
+        riskOSF = Math.min(0.99, ((wearTorque - 11000) / 4000) * 0.5 + 0.5);
+      }
+
+      let riskBearing = 0;
+      if (vib > 3.0 || acoustic > 75) {
+        riskBearing = Math.min(0.99, ((vib - 3.0) / 3.0) * 0.5 + ((acoustic - 75) / 20) * 0.4);
+      }
+
+      const totalRisk = Math.max(0.008, Math.min(0.992, Math.max(riskHDF, riskTWF, riskPWF, riskOSF, riskBearing)));
+      const healthPct = Math.max(1, Math.min(99, Math.round((1 - totalRisk) * 100)));
+
+      // Update Gauge SVG
+      const totalDash = 283; // semicircle dash length
+      const offset = totalDash * (1 - (healthPct / 100));
+      const gaugeFill = document.getElementById('gaugePath');
+      gaugeFill.style.strokeDashoffset = offset;
+      document.getElementById('gaugeVal').textContent = `${healthPct}%`;
+
+      if (healthPct > 70) {
+        gaugeFill.style.stroke = 'var(--accent-teal)';
+      } else if (healthPct > 35) {
+        gaugeFill.style.stroke = 'var(--accent-amber)';
+      } else {
+        gaugeFill.style.stroke = 'var(--accent-danger)';
+      }
+
+      // Update Risk Banner & Status Badge
+      const banner = document.getElementById('riskBanner');
+      const badge = document.getElementById('riskBadge');
+      const leadTime = document.getElementById('pm_lead_time');
+
+      banner.className = 'risk-banner';
+      badge.className = 'risk-badge';
+
+      let severity = "NORMAL";
+      let failureMode = "NOMINAL";
+
+      if (totalRisk >= 0.75) {
+        severity = "CRITICAL";
+        banner.classList.add('status-critical');
+        badge.classList.add('badge-critical');
+        leadTime.innerText = "🚨 48–54 min to Failure";
+        leadTime.style.color = "var(--accent-danger)";
+      } else if (totalRisk >= 0.45) {
+        severity = "HIGH";
+        banner.classList.add('status-high');
+        badge.classList.add('badge-high');
+        leadTime.innerText = "⚠️ 65–80 min Notice";
+        leadTime.style.color = "var(--accent-amber)";
+      } else if (totalRisk >= 0.20) {
+        severity = "MEDIUM";
+        leadTime.innerText = "ℹ️ ~2.5 hrs Notice";
+        leadTime.style.color = "var(--primary)";
+      } else {
+        severity = "NORMAL";
+        leadTime.innerText = "✓ Nominal (Safe)";
+        leadTime.style.color = "var(--accent-teal)";
+      }
+
+      badge.innerText = severity;
+      document.getElementById('riskProbText').innerText = 
+        `Failure Probability: ${(totalRisk * 100).toFixed(1)}% (Threshold: 52.0%)`;
+
+      // Determine Dominant Failure Mode
+      if (riskHDF >= 0.6) failureMode = "Heat Dissipation Failure (HDF)";
+      else if (riskTWF >= 0.6) failureMode = "Tool Wear Failure (TWF)";
+      else if (riskPWF >= 0.6) failureMode = "Power Overload Failure (PWF)";
+      else if (riskOSF >= 0.6) failureMode = "Overstrain Failure (OSF)";
+      else if (riskBearing >= 0.6) failureMode = "Bearing Resonance / Imbalance";
+
+      updateWorkOrder(severity, failureMode, totalRisk, deltaT, wear, powerW);
+    }
+
+    function updateWorkOrder(severity, failureMode, prob, deltaT, wear, powerW) {
+      const woId = document.getElementById('woId');
+      const woPriority = document.getElementById('woPriority');
+      const woDetails = document.getElementById('woDetails');
+      const woBtn = document.getElementById('woActionBtn');
+
+      if (severity === "CRITICAL" || severity === "HIGH") {
+        woId.innerText = `WO-2026-${selectedMachine}-${Math.floor(1000 + Math.random() * 9000)}`;
+        woPriority.innerText = severity === "CRITICAL" ? "P1 - EMERGENCY SHUTDOWN" : "P2 - SCHEDULED SERVICE";
+        woPriority.style.background = severity === "CRITICAL" ? "rgba(239, 68, 68, 0.2)" : "rgba(245, 158, 11, 0.2)";
+        woPriority.style.color = severity === "CRITICAL" ? "var(--accent-danger)" : "var(--accent-amber)";
+
+        let actionText = "";
+        if (failureMode.includes("Heat Dissipation")) {
+          actionText = `Process temperature differential ΔT is ${deltaT.toFixed(1)}K (<8.6K limit). Flush coolant nozzles, check thermal paste, and verify air plenum flow.`;
+        } else if (failureMode.includes("Tool Wear")) {
+          actionText = `Tool wear is ${Math.round(wear)} min (exceeds 240 min limit). Index turret to new carbide cutting edge and recalibrate Z-offset.`;
+        } else if (failureMode.includes("Power Overload")) {
+          actionText = `Mechanical power is ${Math.round(powerW)}W (exceeds 9,000W limit). Check spindle drive belt tension and motor current draw.`;
+        } else {
+          actionText = `Spindle vibration spike detected. Inspect bearing race alignment, check lubricating oil viscosity, and tighten toolholder collet.`;
+        }
+
+        woDetails.innerHTML = `
+          <b>Asset:</b> ${selectedMachine} | <b>Root Cause:</b> ${failureMode}<br/>
+          <b>Action Required:</b> ${actionText}<br/>
+          <b>Economic Value:</b> $36,000 lost production avoided (8.0 hrs downtime prevented).
+        `;
+        woBtn.innerText = "🚨 Dispatch Technician & Lockout Machine";
+      } else {
+        woId.innerText = `WO-2026-NORMAL`;
+        woPriority.innerText = "MONITORING ACTIVE";
+        woPriority.style.background = "rgba(16, 185, 129, 0.15)";
+        woPriority.style.color = "var(--accent-teal)";
+        woDetails.innerHTML = `Continuous 10-minute sensor telemetry is nominal across vibration, thermals, and mechanical power. No preventative maintenance intervention required.`;
+        woBtn.innerText = "📋 Copy Work Order JSON";
+      }
+    }
+
+    function loadPreset(preset) {
+      document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+
+      if (preset === 'NOMINAL') {
+        setValues(300.0, 310.0, 1500, 40.0, 60, 0.95, 52.0, 120.0);
+      } else if (preset === 'TWF') {
+        setValues(301.5, 311.2, 1420, 58.5, 248, 3.85, 68.0, 135.0);
+      } else if (preset === 'HDF') {
+        setValues(302.8, 309.9, 1280, 64.0, 110, 4.75, 72.0, 140.0); // DeltaT = 7.1K < 8.6K
+      } else if (preset === 'PWF') {
+        setValues(299.5, 309.0, 2450, 42.0, 85, 3.20, 65.0, 155.0); // Power = 10,775 W
+      } else if (preset === 'OSF') {
+        setValues(301.0, 311.5, 1350, 68.0, 235, 5.20, 78.0, 160.0); // Wear x Torque = 15,980
+      } else if (preset === 'BEARING') {
+        setValues(303.0, 314.0, 1850, 48.0, 140, 6.40, 89.0, 125.0); // High vibration + acoustic
+      }
+
+      event && event.target && event.target.classList.add('active');
+      updateSimulation();
+    }
+
+    function setValues(air, proc, speed, torque, wear, vib, acoustic, pressure) {
+      document.getElementById('input_air_temp').value = air;
+      document.getElementById('input_proc_temp').value = proc;
+      document.getElementById('input_speed').value = speed;
+      document.getElementById('input_torque').value = torque;
+      document.getElementById('input_wear').value = wear;
+      document.getElementById('input_vib').value = vib;
+      document.getElementById('input_acoustic').value = acoustic;
+      document.getElementById('input_pressure').value = pressure;
+    }
+
+    function resetToBaseline() {
+      loadPreset('NOMINAL');
+    }
+
+    function copyWorkOrderJSON() {
+      const payload = {
+        work_order_id: document.getElementById('woId').innerText,
+        asset_id: selectedMachine,
+        generated_at: new Date().toISOString(),
+        status: document.getElementById('riskBadge').innerText,
+        probability: document.getElementById('riskProbText').innerText,
+        system: "AI-Predictive-Maintenance-IoT",
+        lead_time_notice: document.getElementById('pm_lead_time').innerText
+      };
+      navigator.clipboard.writeText(JSON.stringify(payload, null, 2)).then(() => {
+        alert("Work Order JSON successfully copied to clipboard!");
+      });
+    }
+
+    // Degradation Canvas Chart
+    function drawDegradationChart() {
+      const canvas = document.getElementById('degradationChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width;
+      const h = rect.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid lines
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.lineWidth = 1;
+      for (let y = 30; y < h - 20; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(40, y);
+        ctx.lineTo(w - 20, y);
+        ctx.stroke();
+      }
+
+      // Early Warning Alert Area
+      const alertStartX = 40 + (w - 60) * 0.72;
+      const failX = 40 + (w - 60) * 0.95;
+
+      ctx.fillStyle = "rgba(239, 68, 68, 0.12)";
+      ctx.fillRect(alertStartX, 20, failX - alertStartX, h - 50);
+
+      ctx.strokeStyle = "rgba(239, 68, 68, 0.6)";
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(alertStartX, 20);
+      ctx.lineTo(alertStartX, h - 30);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Alert Label
+      ctx.fillStyle = "#ef4444";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("ALERT DISPATCH (54 min notice)", alertStartX + 6, 35);
+
+      // Vibration Curve (Teal)
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let i = 0; i <= 100; i++) {
+        const x = 40 + (w - 60) * (i / 100);
+        let val = 0.8 + 0.15 * Math.sin(i * 0.3) + 0.08 * (Math.random() - 0.5);
+        if (i > 60) val += Math.pow((i - 60) / 40, 3) * 4.2;
+        const y = (h - 40) - (val / 5.5) * (h - 70);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Probability Curve (Cyan)
+      ctx.strokeStyle = "#00d2ff";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let i = 0; i <= 100; i++) {
+        const x = 40 + (w - 60) * (i / 100);
+        let prob = 0.02 + 0.01 * (Math.random() - 0.5);
+        if (i > 55) {
+          prob = 1 / (1 + Math.exp(-0.22 * (i - 75)));
+        }
+        const y = (h - 40) - prob * (h - 70);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Threshold line (dashed cyan)
+      const threshY = (h - 40) - 0.52 * (h - 70);
+      ctx.strokeStyle = "rgba(0, 210, 255, 0.4)";
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(40, threshY);
+      ctx.lineTo(w - 20, threshY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "rgba(0, 210, 255, 0.8)";
+      ctx.fillText("Threshold (0.52)", 45, threshY - 6);
+    }
+
+    // Dynamic Threshold Slider in Benchmarks
+    function updateThresholdInteractive() {
+      const val = parseFloat(document.getElementById('threshSlider').value);
+      document.getElementById('threshVal').innerText = val.toFixed(2);
+
+      // Model behavior: as threshold increases, recall slightly drops, false alarms drop
+      const tp = Math.round(118 * (1 - Math.max(0, (val - 0.65) * 0.15)));
+      const fp = Math.max(2, Math.round(35 * Math.exp(-val * 2.2)));
+      const fn = 118 - tp;
+      const rec = (tp / 118) * 100;
+      const savings = (tp * 36000 - fp * 1200) / 1000000;
+
+      document.getElementById('tpVal').innerText = tp;
+      document.getElementById('fpVal').innerText = fp;
+      document.getElementById('fnVal').innerText = fn;
+      document.getElementById('recVal').innerText = `${rec.toFixed(1)}%`;
+      document.getElementById('savVal').innerText = `$${savings.toFixed(2)}M`;
+    }
+
+    // ROI Calculator Engine
+    function updateROI() {
+      const machines = parseInt(document.getElementById('roi_machines').value);
+      const costPerHr = parseFloat(document.getElementById('roi_cost_per_hr').value);
+      const hoursPerFail = parseFloat(document.getElementById('roi_hours_per_fail').value);
+      const failsPerYr = parseFloat(document.getElementById('roi_fails_per_yr').value);
+      const serviceCost = parseFloat(document.getElementById('roi_service_cost').value);
+
+      document.getElementById('roi_machines_val').innerText = `${machines} Machines`;
+      document.getElementById('roi_cost_per_hr_val').innerText = `$${costPerHr.toLocaleString()} / hr`;
+      document.getElementById('roi_hours_per_fail_val').innerText = `${hoursPerFail.toFixed(1)} Hours`;
+      document.getElementById('roi_fails_per_yr_val').innerText = `${failsPerYr.toFixed(1)} Breakdowns / yr`;
+      document.getElementById('roi_service_cost_val').innerText = `$${serviceCost.toLocaleString()} / service`;
+
+      // Status Quo calculation
+      const totalFailures = machines * failsPerYr;
+      const failureCostEach = (hoursPerFail * costPerHr) + 2000; // Downtime + collateral parts
+      const statusQuoCost = totalFailures * failureCostEach;
+
+      // Predictive Maintenance Program
+      const preventedFailures = totalFailures * 0.95; // 95% caught early
+      const plannedServiceTotal = preventedFailures * serviceCost;
+      const remainingUnplannedCost = (totalFailures - preventedFailures) * failureCostEach;
+      const iotHardwareCapex = machines * 450; // $450/machine sensors + edge gateway amortized
+      const pdmTotalCost = plannedServiceTotal + remainingUnplannedCost + iotHardwareCapex;
+
+      const netSavings = statusQuoCost - pdmTotalCost;
+      const pctReduction = (netSavings / statusQuoCost) * 100;
+      const downtimeHoursSaved = preventedFailures * hoursPerFail;
+      const paybackDays = Math.max(1, Math.round((iotHardwareCapex / netSavings) * 365));
+
+      document.getElementById('roiAnnualSavings').innerText = `$${Math.round(netSavings).toLocaleString()}`;
+      document.getElementById('roiSummaryText').innerText = `${pctReduction.toFixed(0)}% net reduction in maintenance and lost-production costs.`;
+      document.getElementById('roiPayback').innerText = `${paybackDays} Days`;
+      document.getElementById('roiDowntimeSaved').innerText = `${Math.round(downtimeHoursSaved)} hrs/yr`;
+      document.getElementById('roiStatusQuo').innerText = `$${(statusQuoCost / 1000000).toFixed(2)}M/yr`;
+    }
+
+    // API Tester
+    function testApiEndpoint() {
+      const btn = event.target;
+      btn.innerText = "⏳ Querying Inference Engine...";
+      setTimeout(() => {
+        const mockResponses = [
+          {
+            failure_probability: 0.892,
+            threshold: 0.52,
+            verdict: "FAIL_RISK",
+            severity: "CRITICAL",
+            health_index: 0.108,
+            work_order_id: `WO-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+            recommended_action: "Emergency tool replacement and spindle inspection required."
+          },
+          {
+            failure_probability: 0.014,
+            threshold: 0.52,
+            verdict: "NORMAL",
+            severity: "LOW",
+            health_index: 0.986,
+            work_order_id: null,
+            recommended_action: "Nominal operational state. Routine monitoring active."
+          }
+        ];
+        const res = mockResponses[Math.floor(Math.random() * mockResponses.length)];
+        document.getElementById('apiResponseBlock').innerHTML = `<code>${JSON.stringify(res, null, 2)}</code>`;
+        btn.innerText = "▶ Test Endpoint & Simulate Response";
+      }, 350);
+    }
+
+    // FAQ Toggle
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      item.classList.toggle('open');
+    }
+
+    // Auto-stream simulator
+    let liveStreamActive = true;
+    function simulateFleetTick() {
+      if (!liveStreamActive) return;
+      const randomMachine = FLEET_DATA[Math.floor(Math.random() * FLEET_DATA.length)];
+      if (randomMachine.status === 'HEALTHY') {
+        randomMachine.vib = Math.max(0.6, Math.min(1.4, randomMachine.vib + (Math.random() - 0.5) * 0.08));
+        randomMachine.temp = Math.max(36.0, Math.min(44.0, randomMachine.temp + (Math.random() - 0.5) * 0.2));
+      }
+      renderFleet();
+    }
+
+    // Init on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderFleet();
+      updateSimulation();
+      updateROI();
+      drawDegradationChart();
+      window.addEventListener('resize', drawDegradationChart);
+      setInterval(simulateFleetTick, 3500);
+    });
+  </script>
+</body>
+</html>

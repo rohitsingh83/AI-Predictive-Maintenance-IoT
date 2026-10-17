@@ -1,0 +1,11 @@
+{
+  "held_out_machines": [
+    "MOTOR-018",
+    "MOTOR-024",
+    "MOTOR-010",
+    "MOTOR-011",
+    "MOTOR-013",
+    "MOTOR-019"
+  ],
+  "feature_count": 92
+}

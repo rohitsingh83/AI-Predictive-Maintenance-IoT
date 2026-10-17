@@ -1,0 +1,40 @@
+{
+  "work_order_id": "WO-2026-HDF-0842",
+  "generated_at": "2026-10-17T12:00:00Z",
+  "machine_id": "M08",
+  "machine_type": "CNC Vertical Machining Center (Heavy-Duty)",
+  "location": "Bay 3 - Production Line A",
+  "priority": "P1 - EMERGENCY PREVENTATIVE SERVICE",
+  "severity": "CRITICAL",
+  "failure_probability": 0.965,
+  "health_index": 0.124,
+  "lead_time_to_failure": "52 minutes notice (0.87 hours)",
+  "root_cause_analysis": {
+    "primary_failure_mode": "Heat Dissipation Failure (HDF)",
+    "physics_indicators": {
+      "air_temperature_k": 302.4,
+      "process_temperature_k": 310.1,
+      "temperature_differential_k": 7.7,
+      "critical_delta_t_threshold_k": 8.6,
+      "rotational_speed_rpm": 1280,
+      "torque_nm": 64.2,
+      "spindle_vibration_mm_s": 4.82
+    },
+    "diagnosis": "Process-to-air temperature differential ΔT is 7.7K (<8.6K critical limit) at rotational speed 1,280 RPM. Thermal dissipation capacity has degraded by 64% due to coolant delivery restriction and heat exchanger airflow fouling, leading to exponential bearing thermal runaway."
+  },
+  "recommended_maintenance_actions": [
+    "Execute Lockout/Tagout (LOTO) protocol on Machine M08.",
+    "Verify spindle cooling jacket circulation flow rate and flush particulate buildup from coolant nozzles.",
+    "Inspect air filtration plenum and clean intake louvers.",
+    "Verify PT100 temperature sensor calibration against thermal imaging reference.",
+    "Perform automated post-service diagnostic cycle before returning machine to active production line."
+  ],
+  "business_impact": {
+    "unplanned_downtime_avoided_hours": 8.0,
+    "cost_of_unplanned_failure": 36000.0,
+    "cost_of_preventive_service": 1200.0,
+    "net_capital_saved_usd": 34800.0
+  },
+  "dispatched_to": "Mechanical Maintenance Team - Shift Alpha",
+  "status": "DISPATCHED"
+}

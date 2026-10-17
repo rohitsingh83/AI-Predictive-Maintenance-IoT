@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-10-17T12:30:00Z",
+  "request_payload": {
+    "air_temp_k": 302.0,
+    "process_temp_k": 312.0,
+    "rotational_speed_rpm": 1250,
+    "torque_nm": 68.0,
+    "tool_wear_min": 240
+  },
+  "engineered_physics_features": {
+    "temp_diff_k": 10.0,
+    "mechanical_power_w": 8901.18,
+    "temp_ratio": 1.0331,
+    "heat_dissipation_index": 0.008,
+    "torque_speed_ratio": 0.0544,
+    "wear_torque_interaction": 16320.0,
+    "power_dissipation_factor": 890.12,
+    "relative_speed_slip": -0.1878,
+    "tool_wear_rate_estimate": 0.0489
+  },
+  "prediction": {
+    "failure_probability": 0.892,
+    "threshold": 0.52,
+    "verdict": "FAIL_RISK",
+    "severity": "CRITICAL",
+    "health_index": 0.108,
+    "confidence_interval": [0.864, 0.920],
+    "model_name": "HistGradientBoostingClassifier (Isotonically Calibrated)",
+    "recommendation": "Emergency inspection: High tool wear (240 min) coupled with extreme cutting torque (68.0 Nm) creates near-certain catastrophic tool breakage risk within the current production cycle."
+  }
+}

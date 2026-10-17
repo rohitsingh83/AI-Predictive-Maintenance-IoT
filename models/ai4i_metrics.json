@@ -1,0 +1,81 @@
+{
+  "dataset": "AI4I-2020 (real factory data)",
+  "chosen_model": "random_forest",
+  "cv_comparison": [
+    {
+      "model": "random_forest",
+      "cv_pr_auc": 0.871,
+      "cv_roc_auc": 0.9769,
+      "cv_recall@0.5": 0.7528,
+      "cv_precision@0.5": 0.9027,
+      "cv_f1@0.5": 0.8209,
+      "cv_recall_tuned": 0.8487,
+      "cv_precision_tuned": 0.7233,
+      "cv_f1_tuned": 0.781,
+      "tuned_threshold": 0.25,
+      "fit_seconds": 9.6
+    },
+    {
+      "model": "extra_trees",
+      "cv_pr_auc": 0.8263,
+      "cv_roc_auc": 0.9781,
+      "cv_recall@0.5": 0.7712,
+      "cv_precision@0.5": 0.7684,
+      "cv_f1@0.5": 0.7698,
+      "cv_recall_tuned": 0.8303,
+      "cv_precision_tuned": 0.5921,
+      "cv_f1_tuned": 0.6912,
+      "tuned_threshold": 0.37,
+      "fit_seconds": 7.5
+    },
+    {
+      "model": "hist_gradient_boosting",
+      "cv_pr_auc": 0.826,
+      "cv_roc_auc": 0.9615,
+      "cv_recall@0.5": 0.8118,
+      "cv_precision@0.5": 0.6358,
+      "cv_f1@0.5": 0.7131,
+      "cv_recall_tuned": 0.9077,
+      "cv_precision_tuned": 0.408,
+      "cv_f1_tuned": 0.5629,
+      "tuned_threshold": 0.16,
+      "fit_seconds": 19.3
+    },
+    {
+      "model": "logistic_regression",
+      "cv_pr_auc": 0.5153,
+      "cv_roc_auc": 0.9504,
+      "cv_recall@0.5": 0.8967,
+      "cv_precision@0.5": 0.2015,
+      "cv_f1@0.5": 0.329,
+      "cv_recall_tuned": 0.8708,
+      "cv_precision_tuned": 0.2271,
+      "cv_f1_tuned": 0.3603,
+      "tuned_threshold": 0.58,
+      "fit_seconds": 5.0
+    }
+  ],
+  "n_features": 15,
+  "n_train": 8000,
+  "n_test": 2000,
+  "test_metrics": {
+    "threshold": 0.23,
+    "accuracy": 0.9905,
+    "precision": 0.8769,
+    "recall": 0.8382,
+    "f1": 0.8571,
+    "roc_auc": 0.9764,
+    "pr_auc": 0.8748,
+    "balanced_accuracy": 0.917,
+    "mcc": 0.8525,
+    "brier": 0.0084,
+    "tp": 57,
+    "fp": 8,
+    "fn": 11,
+    "tn": 1924,
+    "n_samples": 2000,
+    "n_positives": 68,
+    "missed_failures": 11,
+    "false_alarms": 8
+  }
+}

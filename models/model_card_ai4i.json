@@ -1,0 +1,75 @@
+{
+  "dataset": "AI4I-2020 (real factory data)",
+  "model": "random_forest",
+  "features": 15,
+  "threshold": 0.23,
+  "metrics": {
+    "threshold": 0.23,
+    "accuracy": 0.9905,
+    "precision": 0.8769,
+    "recall": 0.8382,
+    "f1": 0.8571,
+    "roc_auc": 0.9764,
+    "pr_auc": 0.8748,
+    "balanced_accuracy": 0.917,
+    "mcc": 0.8525,
+    "brier": 0.0084,
+    "tp": 57,
+    "fp": 8,
+    "fn": 11,
+    "tn": 1924,
+    "n_samples": 2000,
+    "n_positives": 68,
+    "missed_failures": 11,
+    "false_alarms": 8
+  },
+  "top_features": [
+    {
+      "feature": "heat_dissipation_index",
+      "importance": 0.14184763189409297,
+      "importance_pct": 17.98
+    },
+    {
+      "feature": "rotational_speed_rpm",
+      "importance": 0.1229172936147422,
+      "importance_pct": 15.58
+    },
+    {
+      "feature": "torque_per_rpm",
+      "importance": 0.11765021521582601,
+      "importance_pct": 14.92
+    },
+    {
+      "feature": "tool_wear_min",
+      "importance": 0.09486550299743982,
+      "importance_pct": 12.03
+    },
+    {
+      "feature": "torque_nm",
+      "importance": 0.09292712146127342,
+      "importance_pct": 11.78
+    },
+    {
+      "feature": "mechanical_power_w",
+      "importance": 0.08432238376060747,
+      "importance_pct": 10.69
+    },
+    {
+      "feature": "rpm_deviation",
+      "importance": 0.06879530565761519,
+      "importance_pct": 8.72
+    },
+    {
+      "feature": "wear_x_torque",
+      "importance": 0.06541096920114649,
+      "importance_pct": 8.29
+    }
+  ],
+  "trained_at": "2026-10-16T17:41:49",
+  "seed": 42,
+  "limitations": [
+    "Trained on a public benchmark (AI4I 2020) and a virtual fleet; real plants must re-train on their own historical work orders.",
+    "Predicts failure within the configured horizon only - it is not a remaining-useful-life (RUL) regressor.",
+    "Sensor drift / recalibration can silently degrade accuracy - monitor input distributions in production (data-drift checks)."
+  ]
+}

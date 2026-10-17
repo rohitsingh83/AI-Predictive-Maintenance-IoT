@@ -1,0 +1,104 @@
+timestamp,machine_id,severity,probability,recommended_action,work_order_id,acknowledged,e_health_index,e_fault_mode,e_cycle
+2025-01-01 15:20:00,MOTOR-018,MEDIUM,0.3105,Plan inspection this week - increase monitoring frequency,WO-1001,False,0.2731,electrical_fault,92
+2025-01-01 15:30:00,MOTOR-018,HIGH,0.6514,"Create work order within 24 h - inspect bearings, lubrication",WO-1002,False,0.2424,electrical_fault,93
+2025-01-01 15:50:00,MOTOR-018,CRITICAL,0.9333,STOP & inspect now - schedule emergency maintenance,WO-1003,False,0.1677,electrical_fault,95
+2025-01-01 18:30:00,MOTOR-024,MEDIUM,0.4616,Plan inspection this week - increase monitoring frequency,WO-1004,False,0.2387,electrical_fault,111
+2025-01-01 18:40:00,MOTOR-024,HIGH,0.6694,"Create work order within 24 h - inspect bearings, lubrication",WO-1005,False,0.2081,electrical_fault,112
+2025-01-01 19:00:00,MOTOR-024,CRITICAL,0.9375,STOP & inspect now - schedule emergency maintenance,WO-1006,False,0.1441,electrical_fault,114
+2025-01-01 19:20:00,MOTOR-019,MEDIUM,0.3135,Plan inspection this week - increase monitoring frequency,WO-1007,False,0.2654,overheating,116
+2025-01-01 19:30:00,MOTOR-019,HIGH,0.5609,"Create work order within 24 h - inspect bearings, lubrication",WO-1008,False,0.2399,overheating,117
+2025-01-01 19:40:00,MOTOR-019,CRITICAL,0.9256,STOP & inspect now - schedule emergency maintenance,WO-1009,False,0.213,overheating,118
+2025-01-01 21:30:00,MOTOR-013,MEDIUM,0.4133,Plan inspection this week - increase monitoring frequency,WO-1010,False,0.2389,overheating,129
+2025-01-01 21:40:00,MOTOR-013,HIGH,0.5998,"Create work order within 24 h - inspect bearings, lubrication",WO-1011,False,0.2118,overheating,130
+2025-01-01 21:50:00,MOTOR-013,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1012,False,0.1816,overheating,131
+2025-01-01 22:30:00,MOTOR-010,MEDIUM,0.4781,Plan inspection this week - increase monitoring frequency,WO-1013,False,0.2112,overheating,135
+2025-01-01 22:40:00,MOTOR-010,HIGH,0.7959,"Create work order within 24 h - inspect bearings, lubrication",WO-1014,False,0.1814,overheating,136
+2025-01-01 22:50:00,MOTOR-010,CRITICAL,0.9444,STOP & inspect now - schedule emergency maintenance,WO-1015,False,0.1548,overheating,137
+2025-01-02 00:00:00,MOTOR-011,HIGH,0.5522,"Create work order within 24 h - inspect bearings, lubrication",WO-1016,False,0.1948,electrical_fault,144
+2025-01-02 00:20:00,MOTOR-011,CRITICAL,0.9333,STOP & inspect now - schedule emergency maintenance,WO-1017,False,0.1378,electrical_fault,146
+2025-01-02 08:10:00,MOTOR-018,MEDIUM,0.4616,Plan inspection this week - increase monitoring frequency,WO-1018,False,0.2542,electrical_fault,193
+2025-01-02 08:20:00,MOTOR-018,HIGH,0.5522,"Create work order within 24 h - inspect bearings, lubrication",WO-1019,False,0.2256,electrical_fault,194
+2025-01-02 08:40:00,MOTOR-018,CRITICAL,0.9333,STOP & inspect now - schedule emergency maintenance,WO-1020,False,0.1501,electrical_fault,196
+2025-01-02 13:50:00,MOTOR-024,HIGH,0.5522,"Create work order within 24 h - inspect bearings, lubrication",WO-1021,False,0.2201,electrical_fault,227
+2025-01-02 14:10:00,MOTOR-024,CRITICAL,0.9077,STOP & inspect now - schedule emergency maintenance,WO-1022,False,0.1484,electrical_fault,229
+2025-01-02 15:50:00,MOTOR-019,MEDIUM,0.4133,Plan inspection this week - increase monitoring frequency,WO-1023,False,0.266,overheating,239
+2025-01-02 16:10:00,MOTOR-019,CRITICAL,0.8222,STOP & inspect now - schedule emergency maintenance,WO-1024,False,0.2084,overheating,241
+2025-01-02 20:20:00,MOTOR-013,MEDIUM,0.3776,Plan inspection this week - increase monitoring frequency,WO-1025,False,0.2428,overheating,266
+2025-01-02 20:40:00,MOTOR-013,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1026,False,0.187,overheating,268
+2025-01-02 22:20:00,MOTOR-010,MEDIUM,0.3968,Plan inspection this week - increase monitoring frequency,WO-1027,False,0.2094,overheating,278
+2025-01-02 22:30:00,MOTOR-010,HIGH,0.5998,"Create work order within 24 h - inspect bearings, lubrication",WO-1028,False,0.1846,overheating,279
+2025-01-02 22:40:00,MOTOR-010,CRITICAL,0.9256,STOP & inspect now - schedule emergency maintenance,WO-1029,False,0.1574,overheating,280
+2025-01-03 00:40:00,MOTOR-018,MEDIUM,0.4781,Plan inspection this week - increase monitoring frequency,WO-1030,False,0.2585,electrical_fault,292
+2025-01-03 00:50:00,MOTOR-018,HIGH,0.6514,"Create work order within 24 h - inspect bearings, lubrication",WO-1031,False,0.2222,electrical_fault,293
+2025-01-03 01:00:00,MOTOR-011,HIGH,0.5522,"Create work order within 24 h - inspect bearings, lubrication",WO-1032,False,0.1765,electrical_fault,294
+2025-01-03 01:00:00,MOTOR-018,CRITICAL,0.8214,STOP & inspect now - schedule emergency maintenance,WO-1033,False,0.1905,electrical_fault,294
+2025-01-03 01:10:00,MOTOR-011,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1034,False,0.1498,electrical_fault,295
+2025-01-03 09:10:00,MOTOR-024,MEDIUM,0.3429,Plan inspection this week - increase monitoring frequency,WO-1035,False,0.2229,electrical_fault,343
+2025-01-03 09:20:00,MOTOR-024,HIGH,0.6692,"Create work order within 24 h - inspect bearings, lubrication",WO-1036,False,0.1918,electrical_fault,344
+2025-01-03 09:40:00,MOTOR-024,CRITICAL,0.9444,STOP & inspect now - schedule emergency maintenance,WO-1037,False,0.1247,electrical_fault,346
+2025-01-03 12:30:00,MOTOR-019,MEDIUM,0.3968,Plan inspection this week - increase monitoring frequency,WO-1038,False,0.2559,overheating,363
+2025-01-03 12:50:00,MOTOR-019,HIGH,0.7039,"Create work order within 24 h - inspect bearings, lubrication",WO-1039,False,0.2004,overheating,365
+2025-01-03 13:00:00,MOTOR-019,CRITICAL,0.9896,STOP & inspect now - schedule emergency maintenance,WO-1040,False,0.1674,overheating,366
+2025-01-03 17:00:00,MOTOR-018,MEDIUM,0.3104,Plan inspection this week - increase monitoring frequency,WO-1041,False,0.2862,electrical_fault,390
+2025-01-03 17:10:00,MOTOR-018,HIGH,0.6216,"Create work order within 24 h - inspect bearings, lubrication",WO-1042,False,0.2512,electrical_fault,391
+2025-01-03 17:30:00,MOTOR-018,CRITICAL,0.8333,STOP & inspect now - schedule emergency maintenance,WO-1043,False,0.1818,electrical_fault,393
+2025-01-03 18:50:00,MOTOR-013,MEDIUM,0.3135,Plan inspection this week - increase monitoring frequency,WO-1044,False,0.2456,overheating,401
+2025-01-03 19:10:00,MOTOR-013,HIGH,0.7692,"Create work order within 24 h - inspect bearings, lubrication",WO-1045,False,0.185,overheating,403
+2025-01-03 19:20:00,MOTOR-013,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1046,False,0.1571,overheating,404
+2025-01-03 22:10:00,MOTOR-010,HIGH,0.5998,"Create work order within 24 h - inspect bearings, lubrication",WO-1047,False,0.2063,overheating,421
+2025-01-03 22:20:00,MOTOR-010,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1048,False,0.1821,overheating,422
+2025-01-04 01:50:00,MOTOR-011,HIGH,0.5522,"Create work order within 24 h - inspect bearings, lubrication",WO-1049,False,0.194,electrical_fault,443
+2025-01-04 02:10:00,MOTOR-011,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1050,False,0.1409,electrical_fault,445
+2025-01-04 04:40:00,MOTOR-024,HIGH,0.6269,"Create work order within 24 h - inspect bearings, lubrication",WO-1051,False,0.2,electrical_fault,460
+2025-01-04 05:00:00,MOTOR-024,CRITICAL,0.9375,STOP & inspect now - schedule emergency maintenance,WO-1052,False,0.136,electrical_fault,462
+2025-01-04 09:10:00,MOTOR-019,MEDIUM,0.3968,Plan inspection this week - increase monitoring frequency,WO-1053,False,0.2577,overheating,487
+2025-01-04 09:20:00,MOTOR-019,HIGH,0.6257,"Create work order within 24 h - inspect bearings, lubrication",WO-1054,False,0.2277,overheating,488
+2025-01-04 09:30:00,MOTOR-018,MEDIUM,0.4616,Plan inspection this week - increase monitoring frequency,WO-1055,False,0.2545,electrical_fault,489
+2025-01-04 09:40:00,MOTOR-018,HIGH,0.6216,"Create work order within 24 h - inspect bearings, lubrication",WO-1056,False,0.2206,electrical_fault,490
+2025-01-04 09:40:00,MOTOR-019,CRITICAL,0.9777,STOP & inspect now - schedule emergency maintenance,WO-1057,False,0.1721,overheating,490
+2025-01-04 10:00:00,MOTOR-018,CRITICAL,0.9333,STOP & inspect now - schedule emergency maintenance,WO-1058,False,0.1526,electrical_fault,492
+2025-01-04 17:20:00,MOTOR-013,MEDIUM,0.463,Plan inspection this week - increase monitoring frequency,WO-1059,False,0.2284,overheating,536
+2025-01-04 17:30:00,MOTOR-013,HIGH,0.5998,"Create work order within 24 h - inspect bearings, lubrication",WO-1060,False,0.2037,overheating,537
+2025-01-04 17:50:00,MOTOR-013,CRITICAL,0.9333,STOP & inspect now - schedule emergency maintenance,WO-1061,False,0.1352,overheating,539
+2025-01-04 21:50:00,MOTOR-010,MEDIUM,0.4781,Plan inspection this week - increase monitoring frequency,WO-1062,False,0.2071,overheating,563
+2025-01-04 22:00:00,MOTOR-010,HIGH,0.799,"Create work order within 24 h - inspect bearings, lubrication",WO-1063,False,0.1819,overheating,564
+2025-01-04 22:10:00,MOTOR-010,CRITICAL,0.9375,STOP & inspect now - schedule emergency maintenance,WO-1064,False,0.1566,overheating,565
+2025-01-04 23:50:00,MOTOR-024,HIGH,0.5513,"Create work order within 24 h - inspect bearings, lubrication",WO-1065,False,0.2329,electrical_fault,575
+2025-01-05 00:10:00,MOTOR-024,CRITICAL,0.9375,STOP & inspect now - schedule emergency maintenance,WO-1066,False,0.1666,electrical_fault,577
+2025-01-05 02:00:00,MOTOR-018,MEDIUM,0.415,Plan inspection this week - increase monitoring frequency,WO-1067,False,0.2674,electrical_fault,588
+2025-01-05 02:10:00,MOTOR-018,HIGH,0.5522,"Create work order within 24 h - inspect bearings, lubrication",WO-1068,False,0.2314,electrical_fault,589
+2025-01-05 02:20:00,MOTOR-018,CRITICAL,0.8214,STOP & inspect now - schedule emergency maintenance,WO-1069,False,0.1932,electrical_fault,590
+2025-01-05 02:40:00,MOTOR-011,HIGH,0.799,"Create work order within 24 h - inspect bearings, lubrication",WO-1070,False,0.1877,electrical_fault,592
+2025-01-05 03:00:00,MOTOR-011,CRITICAL,0.9333,STOP & inspect now - schedule emergency maintenance,WO-1071,False,0.1362,electrical_fault,594
+2025-01-05 15:50:00,MOTOR-013,MEDIUM,0.3776,Plan inspection this week - increase monitoring frequency,WO-1072,False,0.244,overheating,671
+2025-01-05 16:10:00,MOTOR-013,HIGH,0.6998,"Create work order within 24 h - inspect bearings, lubrication",WO-1073,False,0.1914,overheating,673
+2025-01-05 16:20:00,MOTOR-013,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1074,False,0.1636,overheating,674
+2025-01-05 19:10:00,MOTOR-024,MEDIUM,0.3505,Plan inspection this week - increase monitoring frequency,WO-1075,False,0.2359,electrical_fault,691
+2025-01-05 19:20:00,MOTOR-024,HIGH,0.699,"Create work order within 24 h - inspect bearings, lubrication",WO-1076,False,0.2037,electrical_fault,692
+2025-01-05 19:30:00,MOTOR-024,CRITICAL,0.8109,STOP & inspect now - schedule emergency maintenance,WO-1077,False,0.1715,electrical_fault,693
+2025-01-05 21:30:00,MOTOR-010,MEDIUM,0.4781,Plan inspection this week - increase monitoring frequency,WO-1078,False,0.2004,overheating,705
+2025-01-05 21:40:00,MOTOR-010,CRITICAL,0.9256,STOP & inspect now - schedule emergency maintenance,WO-1079,False,0.1687,overheating,706
+2025-01-05 22:10:00,MOTOR-019,MEDIUM,0.3135,Plan inspection this week - increase monitoring frequency,WO-1080,False,0.2646,overheating,709
+2025-01-05 22:30:00,MOTOR-019,CRITICAL,0.9256,STOP & inspect now - schedule emergency maintenance,WO-1081,False,0.2082,overheating,711
+2025-01-06 02:30:00,MOTOR-018,HIGH,0.5522,"Create work order within 24 h - inspect bearings, lubrication",WO-1082,False,0.2516,electrical_fault,735
+2025-01-06 02:50:00,MOTOR-018,CRITICAL,0.8333,STOP & inspect now - schedule emergency maintenance,WO-1083,False,0.1733,electrical_fault,737
+2025-01-06 03:30:00,MOTOR-011,MEDIUM,0.4621,Plan inspection this week - increase monitoring frequency,WO-1084,False,0.2068,electrical_fault,741
+2025-01-06 03:40:00,MOTOR-011,HIGH,0.6216,"Create work order within 24 h - inspect bearings, lubrication",WO-1085,False,0.1769,electrical_fault,742
+2025-01-06 04:00:00,MOTOR-011,CRITICAL,0.9375,STOP & inspect now - schedule emergency maintenance,WO-1086,False,0.125,electrical_fault,744
+2025-01-06 14:40:00,MOTOR-024,HIGH,0.699,"Create work order within 24 h - inspect bearings, lubrication",WO-1087,False,0.206,electrical_fault,808
+2025-01-06 15:00:00,MOTOR-024,CRITICAL,0.9375,STOP & inspect now - schedule emergency maintenance,WO-1088,False,0.1372,electrical_fault,810
+2025-01-06 18:40:00,MOTOR-019,MEDIUM,0.3611,Plan inspection this week - increase monitoring frequency,WO-1089,False,0.272,overheating,832
+2025-01-06 18:50:00,MOTOR-019,HIGH,0.5609,"Create work order within 24 h - inspect bearings, lubrication",WO-1090,False,0.2427,overheating,833
+2025-01-06 19:00:00,MOTOR-018,MEDIUM,0.4781,Plan inspection this week - increase monitoring frequency,WO-1091,False,0.2653,electrical_fault,834
+2025-01-06 19:00:00,MOTOR-019,CRITICAL,0.9256,STOP & inspect now - schedule emergency maintenance,WO-1092,False,0.2137,overheating,834
+2025-01-06 19:10:00,MOTOR-018,HIGH,0.6514,"Create work order within 24 h - inspect bearings, lubrication",WO-1093,False,0.2354,electrical_fault,835
+2025-01-06 19:20:00,MOTOR-018,CRITICAL,0.8214,STOP & inspect now - schedule emergency maintenance,WO-1094,False,0.1988,electrical_fault,836
+2025-01-06 21:10:00,MOTOR-010,MEDIUM,0.4781,Plan inspection this week - increase monitoring frequency,WO-1095,False,0.2155,overheating,847
+2025-01-06 21:20:00,MOTOR-010,HIGH,0.6998,"Create work order within 24 h - inspect bearings, lubrication",WO-1096,False,0.1848,overheating,848
+2025-01-06 21:30:00,MOTOR-010,CRITICAL,0.9325,STOP & inspect now - schedule emergency maintenance,WO-1097,False,0.1504,overheating,849
+2025-01-06 22:50:00,MOTOR-013,MEDIUM,0.4133,Plan inspection this week - increase monitoring frequency,WO-1098,False,0.2271,overheating,857
+2025-01-06 23:00:00,MOTOR-013,HIGH,0.5998,"Create work order within 24 h - inspect bearings, lubrication",WO-1099,False,0.1988,overheating,858
+2025-01-06 23:10:00,MOTOR-013,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1100,False,0.1701,overheating,859
+2025-01-07 04:10:00,MOTOR-011,MEDIUM,0.4616,Plan inspection this week - increase monitoring frequency,WO-1101,False,0.1884,electrical_fault,889
+2025-01-07 04:20:00,MOTOR-011,HIGH,0.699,"Create work order within 24 h - inspect bearings, lubrication",WO-1102,False,0.1647,electrical_fault,890
+2025-01-07 04:30:00,MOTOR-011,CRITICAL,0.9214,STOP & inspect now - schedule emergency maintenance,WO-1103,False,0.1344,electrical_fault,891

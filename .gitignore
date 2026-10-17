@@ -1,0 +1,47 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---------- virtual environments ----------
+.venv/
+venv/
+env/
+ENV/
+
+# ---------- notebooks ----------
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ---------- data: regenerate with `python main.py simulate` ----------
+# (the AI4I csv is small and public, so it IS committed on purpose)
+data/processed/*.csv
+data/raw/iot_sensor_stream.csv
+
+# ---------- outputs: keep the dashboard + alerts, ignore scratch ----------
+outputs/*.log
+outputs/train_stream.log
+
+# ---------- editor / OS ----------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# ---------- secrets ----------
+.env
+*.pem
+credentials.json
+
+# ---------- coverage ----------
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

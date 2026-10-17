@@ -1,0 +1,5 @@
+model,cv_pr_auc,cv_roc_auc,cv_recall@0.5,cv_precision@0.5,cv_f1@0.5,cv_recall_tuned,cv_precision_tuned,cv_f1_tuned,tuned_threshold,fit_seconds
+extra_trees,0.9942,0.9999,0.981,0.9208,0.9499,0.9958,0.8856,0.9374,0.39,10.3
+random_forest,0.9846,0.9996,0.9388,0.9213,0.93,0.9958,0.8,0.8872,0.12,14.8
+hist_gradient_boosting,0.9835,0.9996,0.9726,0.8831,0.9257,0.9937,0.8502,0.9163,0.2,146.3
+logistic_regression,0.9823,0.9996,0.9895,0.8072,0.8891,0.9937,0.7837,0.8763,0.37,10.2

@@ -1,0 +1,75 @@
+{
+  "dataset": "Virtual IoT stream",
+  "model": "extra_trees",
+  "features": 92,
+  "threshold": 0.36,
+  "metrics": {
+    "threshold": 0.36,
+    "accuracy": 0.9963,
+    "precision": 0.9458,
+    "recall": 0.9701,
+    "f1": 0.9578,
+    "roc_auc": 0.9998,
+    "pr_auc": 0.9951,
+    "balanced_accuracy": 0.9838,
+    "mcc": 0.956,
+    "brier": 0.0035,
+    "tp": 227,
+    "fp": 13,
+    "fn": 7,
+    "tn": 5153,
+    "n_samples": 5400,
+    "n_positives": 234,
+    "missed_failures": 7,
+    "false_alarms": 13
+  },
+  "top_features": [
+    {
+      "feature": "temperature_c_mean_5",
+      "importance": 0.06219677844358777,
+      "importance_pct": 18.28
+    },
+    {
+      "feature": "temperature_c_max_5",
+      "importance": 0.05531895095780422,
+      "importance_pct": 16.26
+    },
+    {
+      "feature": "temperature_c_max_15",
+      "importance": 0.046438747525435184,
+      "importance_pct": 13.65
+    },
+    {
+      "feature": "temperature_c_min_5",
+      "importance": 0.039197479139504006,
+      "importance_pct": 11.52
+    },
+    {
+      "feature": "temperature_c",
+      "importance": 0.03810693712378683,
+      "importance_pct": 11.2
+    },
+    {
+      "feature": "temp_rise_above_ambient",
+      "importance": 0.03456877464645233,
+      "importance_pct": 10.16
+    },
+    {
+      "feature": "acoustic_db_mean_5",
+      "importance": 0.03294166288829098,
+      "importance_pct": 9.68
+    },
+    {
+      "feature": "temperature_c_mean_15",
+      "importance": 0.031445475174339474,
+      "importance_pct": 9.24
+    }
+  ],
+  "trained_at": "2026-10-16T17:45:14",
+  "seed": 42,
+  "limitations": [
+    "Trained on a public benchmark (AI4I 2020) and a virtual fleet; real plants must re-train on their own historical work orders.",
+    "Predicts failure within the configured horizon only - it is not a remaining-useful-life (RUL) regressor.",
+    "Sensor drift / recalibration can silently degrade accuracy - monitor input distributions in production (data-drift checks)."
+  ]
+}
